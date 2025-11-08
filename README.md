@@ -1,5 +1,4 @@
-# ZhiLianEXueAutoPlayer
-智联E学自动刷课助手篡改猴脚本
+# zhi-lian-E-xue-auto-player.user.js（！！！重大版本更新！！！使用篡改猴实现！！！）
 
 ### 🌐 选择语言 | 選擇語言 | Choose Language | 言語選択 | 언어 선택
 
@@ -41,6 +40,7 @@
 
 点击下方链接安装脚本：
 - [从 GitHub 安装](https://github.com/Brandonjhd/ZhiLianEXueAutoPlayer/raw/main/zhi-lian-E-xue-auto-player.user.js)
+- [从蓝奏云下载](https://uxudjs.lanzouw.com/b007u30qud) 密码:6rv5
 
 #### 3. 使用步骤
 
@@ -108,6 +108,7 @@
 
 1. 安裝 [Tampermonkey](https://www.tampermonkey.net/)
 2. 安裝腳本 [GitHub Raw 安裝](https://github.com/Brandonjhd/ZhiLianEXueAutoPlayer/raw/main/zhi-lian-E-xue-auto-player.user.js)
+   - [藍奏雲下載](https://uxudjs.lanzouw.com/b007u30qud) 密碼:6rv5
 3. 開啟智聯E學課程，點擊右下懸浮球🎓，選擇課程開始自動播放
 
 ### 作者
@@ -141,6 +142,7 @@ ZhiLian E-Learning Auto Player is designed for course.zhaopin.com. It traverses 
 
 1. Install [Tampermonkey](https://www.tampermonkey.net/)
 2. Install script: [GitHub Raw Install](https://github.com/Brandonjhd/ZhiLianEXueAutoPlayer/raw/main/zhi-lian-E-xue-auto-player.user.js)
+   - [Download from Lanzou Cloud](https://uxudjs.lanzouw.com/b007u30qud) Password:6rv5
 3. Open ZhiLian E-Learning course, click the hat icon in the lower right, choose a lesson, click Start
 
 ### Author
