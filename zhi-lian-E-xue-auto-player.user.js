@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         智联E学自动刷课助手
-// @version      1.0
+// @version      1.1
 // @description  智联E学自动识别目录、自动翻页、分配课时,高效刷课工具
 // @author       UXU倒計時
 // @match        https://course.zhaopin.com/*
@@ -67,6 +67,58 @@
         if (typeof text !== "string") return "";
         if (text.length <= maxLen) return text;
         return text.slice(0, maxLen) + "...";
+    }
+
+    async function waitForVideoMetadata(videoEl, timeout = 10000) {
+        return new Promise((resolve) => {
+            if (videoEl.duration && !isNaN(videoEl.duration) && videoEl.duration > 0) {
+                resolve(videoEl.duration);
+                return;
+            }
+            let timeoutId = setTimeout(() => {
+                resolve(null);
+            }, timeout);
+            videoEl.addEventListener('loadedmetadata', () => {
+                clearTimeout(timeoutId);
+                resolve(videoEl.duration);
+            }, { once: true });
+        });
+    }
+
+    async function waitForVideoEnd(videoEl, stopFlag, statusEl, lessonName) {
+        return new Promise((resolve) => {
+            let duration = videoEl.duration;
+            if (!duration || isNaN(duration) || duration <= 0) {
+                duration = 60;
+            }
+            let checkInterval = setInterval(() => {
+                if (stopFlag.aborted) {
+                    clearInterval(checkInterval);
+                    resolve(false);
+                    return;
+                }
+                let current = videoEl.currentTime;
+                let total = videoEl.duration || duration;
+                let progress = Math.floor((current / total) * 100);
+                let remainTime = Math.ceil(total - current);
+                statusEl.textContent = truncateStatus(`🎬 播放中: ${lessonName} (${progress}% 剩余${remainTime}秒)`, 36);
+                if (videoEl.ended || (total > 0 && current >= total - 1)) {
+                    clearInterval(checkInterval);
+                    resolve(true);
+                    return;
+                }
+            }, 1000);
+            let endedHandler = () => {
+                clearInterval(checkInterval);
+                resolve(true);
+            };
+            videoEl.addEventListener('ended', endedHandler, { once: true });
+            let maxWait = (duration + 10) * 1000;
+            setTimeout(() => {
+                clearInterval(checkInterval);
+                resolve(true);
+            }, maxWait);
+        });
     }
 
     function renderPanel(courseFlatList) {
@@ -261,43 +313,59 @@
                     return;
                 }
                 videoEl.muted = true;
+                status.textContent = truncateStatus(`⏳ 等待视频元数据加载...`, 36);
+                let duration = await waitForVideoMetadata(videoEl, 10000);
+                if (stopFlag.aborted) {
+                    stopFlag.isPlaying = false;
+                    startBtn.disabled = false;
+                    status.textContent = '';
+                    return;
+                }
+                if (!duration || isNaN(duration)) {
+                    duration = 60;
+                    let timeLabel = document.querySelector('.vcp-timelabel');
+                    if (timeLabel) {
+                        let parts = timeLabel.innerText.split('/');
+                        if (parts.length === 2) {
+                            let text = parts[1].trim();
+                            let seg = text.split(':').map(x=>parseInt(x));
+                            duration = seg.length === 3
+                                ? seg[0]*3600+seg[1]*60+seg[2]
+                                : seg.length === 2 ? seg[0]*60+seg[1]:60;
+                        }
+                    }
+                }
                 if (item.percentNum < 100) {
                     try {
-                        videoEl.currentTime = 0;  // 不足100自动到最开始
+                        videoEl.currentTime = 0;
                     } catch {}
                 } else {
                     try {
-                        let totalSec = videoEl.duration || 0;
-                        if (!totalSec || isNaN(totalSec)) {
-                            let timeLabel = document.querySelector('.vcp-timelabel');
-                            if (timeLabel) {
-                                let parts = timeLabel.innerText.split('/');
-                                if (parts.length === 2) {
-                                    let text = parts[1].trim();
-                                    let seg = text.split(':').map(x=>parseInt(x));
-                                    totalSec = seg.length === 3
-                                        ? seg[0]*3600+seg[1]*60+seg[2]
-                                        : seg.length === 2 ? seg[0]*60+seg[1]:0;
-                                }
-                            }
-                        }
-                        if (!totalSec || isNaN(totalSec)) totalSec = 60;
-                        videoEl.currentTime = totalSec - 1;
+                        let totalSec = duration;
+                        videoEl.currentTime = Math.max(0, totalSec - 2);
                     } catch {}
                 }
-                videoEl.play();
-                let waited = 0, fullWait = (videoEl.duration || 60) + 3;
-                let ended = false;
-                videoEl.onended = () => ended = true;
-                while (!ended && waited < fullWait && !stopFlag.aborted) {
-                    await new Promise(res => setTimeout(res, 1000));
-                    waited++;
+                try {
+                    await videoEl.play();
+                } catch (err) {
+                    console.log('播放失败:', err);
                 }
                 if (stopFlag.aborted) {
                     stopFlag.isPlaying = false;
                     startBtn.disabled = false;
                     status.textContent = '';
                     return;
+                }
+                let completed = await waitForVideoEnd(videoEl, stopFlag, status, item.name);
+                if (stopFlag.aborted) {
+                    stopFlag.isPlaying = false;
+                    startBtn.disabled = false;
+                    status.textContent = '';
+                    return;
+                }
+                if (completed) {
+                    status.textContent = truncateStatus(`✅ ${item.name} 播放完成`, 36);
+                    await new Promise(res => setTimeout(res, 2000));
                 }
                 playNext(idx+1);
             };
