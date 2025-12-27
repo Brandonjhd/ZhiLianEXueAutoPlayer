@@ -39,7 +39,7 @@
 #### 2. 安装脚本
 
 点击下方链接安装脚本：
-- [从 GitHub 安装](https://github.com/Brandonjhd/ZhiLianEXueAutoPlayer/raw/main/zhi-lian-E-xue-auto-player.user.js)
+- [从 GitHub 安装](https://github.com/uxudjs/ZhiLianEXueAutoPlayer/raw/main/zhi-lian-E-xue-auto-player.user.js)
 - [从蓝奏云下载](https://uxudjs.lanzouw.com/b007u30qud) 密码:6rv5
 
 #### 3. 使用步骤
@@ -81,8 +81,8 @@
 
 📌 **使用规范**
 - 仅允许个人非商用、开源学习用途
-- 保留作者署名和仓库出处：https://github.com/Brandonjhd/ZhiLianEXueAutoPlayer
-- 问题或建议欢迎在 [Issues](https://github.com/Brandonjhd/ZhiLianEXueAutoPlayer/issues) 提出
+- 保留作者署名和仓库出处：https://github.com/uxudjs/ZhiLianEXueAutoPlayer
+- 问题或建议欢迎在 [Issues](https://github.com/uxudjs/ZhiLianEXueAutoPlayer/issues) 提出
 
 ---
 
@@ -107,7 +107,7 @@
 ### 安裝說明
 
 1. 安裝 [Tampermonkey](https://www.tampermonkey.net/)
-2. 安裝腳本 [GitHub Raw 安裝](https://github.com/Brandonjhd/ZhiLianEXueAutoPlayer/raw/main/zhi-lian-E-xue-auto-player.user.js)
+2. 安裝腳本 [GitHub Raw 安裝](https://github.com/uxudjs/ZhiLianEXueAutoPlayer/raw/main/zhi-lian-E-xue-auto-player.user.js)
    - [藍奏雲下載](https://uxudjs.lanzouw.com/b007u30qud) 密碼:6rv5
 3. 開啟智聯E學課程，點擊右下懸浮球🎓，選擇課程開始自動播放
 
@@ -141,7 +141,7 @@ ZhiLian E-Learning Auto Player is designed for course.zhaopin.com. It traverses 
 ### Installation
 
 1. Install [Tampermonkey](https://www.tampermonkey.net/)
-2. Install script: [GitHub Raw Install](https://github.com/Brandonjhd/ZhiLianEXueAutoPlayer/raw/main/zhi-lian-E-xue-auto-player.user.js)
+2. Install script: [GitHub Raw Install](https://github.com/uxudjs/ZhiLianEXueAutoPlayer/raw/main/zhi-lian-E-xue-auto-player.user.js)
    - [Download from Lanzou Cloud](https://uxudjs.lanzouw.com/b007u30qud) Password:6rv5
 3. Open ZhiLian E-Learning course, click the hat icon in the lower right, choose a lesson, click Start
 
@@ -209,4 +209,4 @@ ZhiLian E학(course.zhaopin.com)에서 미완강 강의만 자동 재생합니�
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Brandonjhd/ZhiLianEXueAutoPlayer&type=Date)](https://star-history.com/#Brandonjhd/ZhiLianEXueAutoPlayer&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=uxudjs/ZhiLianEXueAutoPlayer&type=Date)](https://star-history.com/#uxudjs/ZhiLianEXueAutoPlayer&Date)
